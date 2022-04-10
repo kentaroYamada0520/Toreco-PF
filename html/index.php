@@ -33,3 +33,5 @@ if (get_post('search')) {
 // var_dump($items);
 
 include_once VIEW_PATH . 'index_view.php';
+
+$test = 'test';
