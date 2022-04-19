@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <?php include VIEW_PATH . 'templates/head.php'; ?>
+  <?php include VIEW_PATH . 'templates/head.php'; ?>uuu
   
   <title>アイテム一覧</title>
   <link rel="stylesheet" href="<?php print STYLESHEET_PATH . 'index.css'; ?>">
