@@ -22,9 +22,9 @@
     <div class="card-deck">
       <div class="row">
       <?php foreach ($items as $item) { ?>
-        <div class="col-xl-3 item">
-          <div class="card h-100 text-center mb-0">
-            <figure class="card-body mb-0">
+        <div class="col-xl-3">
+          <div class="card h-80 text-center mb-0">
+            <figure class="card-body mb-0" style="width: 200px">
                                                                    <!-- print(IMAGE_PATH . $item['image']); -->
               <img class="card-img-top" style="height: 230px" src="<?php print IMAGE_PATH .
                   $item['item_image']; ?>">

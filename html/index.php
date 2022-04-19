@@ -18,20 +18,18 @@ $db = get_db_connect();
 //ログインユーザー情報取得
 $user = get_login_user($db);
 //var_dump($user);
-//トークン生成1
+//トークン生成1z
 $token = get_csrf_token();
 $search_name = get_post('search');
 var_dump($search_name);
 if (get_post('search')) {
     //検索アイテム情報を取得
-    $items = get_search_items($db, $search_name);
+    $items = get_search_items($db, $search_name, $search_name);
 } else {
     //全アイテム情報を取得
     $items = get_items($db);
 }
 
-// var_dump($items);
+//var_dump($items);
 
 include_once VIEW_PATH . 'index_view.php';
-
-$test = 'test';

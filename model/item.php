@@ -27,15 +27,15 @@ function get_item($db, $item_id)
       user
     ON
       itemInfo.user_id = user.user_id
-    RIGHT JOIN
+    LEFT JOIN
       status
     ON
       itemInfo.status_code = status.status_code
-    RIGHT JOIN
+    LEFT JOIN
       shipping
     ON 
       itemInfo.shipping_code = shipping.shipping_code
-    RIGHT JOIN
+    LEFT JOIN
       item_category
     ON
      itemInfo.category_code = item_category.category_code
@@ -96,7 +96,6 @@ function get_item($db, $item_id)
 
 function get_items($db)
 {
-    //items.createdってなんだ？
     $sql = '
     SELECT
       item_id, 
@@ -130,25 +129,70 @@ function get_items($db)
 //   return fetch_all_query($db, $sql);
 // }
 
-function get_search_items($db, $search_name)
+// function get_search_items($db, $search_name)
+// {
+//     $search = '%' . preg_replace('/(?=[!_%])/', '!', $search_name) . '%';
+//     $sql = '
+//     SELECT
+//       itemInfo.item_id,
+//       itemInfo.user_id,
+//       item_price,
+//       item_name,
+//       item_image,
+//       status.status_name,
+//       trade_item_name,
+//       item_category.category_name,
+//       shipping.shipping_date,
+//       item_address,
+//       item_introduction,
+//       user.user_name,
+//       itemInfo.created
+//     FROM
+//       itemInfo
+//     LEFT JOIN
+//       user
+//     ON
+//       itemInfo.user_id = user.user_id
+//     LEFT JOIN
+//       status
+//     ON
+//       itemInfo.status_code = status.status_code
+//     LEFT JOIN
+//       shipping
+//     ON
+//       itemInfo.shipping_code = shipping.shipping_code
+//     LEFT JOIN
+//       item_category
+//     ON
+//       itemInfo.category_code = item_category.category_code
+//     WHERE item_introduction LIKE ?
+//     OR item_name LIKE ?
+//      ';
+
+//     return fetch_all_query_search($db, $sql, [$search]);
+// }
+
+function get_search_items($db, $search_name, $search_name2)
 {
     $search = '%' . preg_replace('/(?=[!_%])/', '!', $search_name) . '%';
+    $search2 = '%' . preg_replace('/(?=[!_%])/', '!', $search_name2) . '%';
+    var_dump($search);
     $sql = '
     SELECT
       item_id, 
       user_id,
       item_name,
       item_image,
-      status_code,
-      trade_item_name,
-      created
+      item_introduction
     FROM
       itemInfo
-    WHERE
-      name LIKE ?
-    ';
+    WHERE 
+      item_introduction LIKE ?
+    OR
+      item_name LIKE ?
+     ';
 
-    return fetch_all_query_search($db, $sql, [$search]);
+    return fetch_all_query_search($db, $sql, [$search, $search2]);
 }
 
 // function get_search_items($db, $search_name){

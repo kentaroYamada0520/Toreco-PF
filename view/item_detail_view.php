@@ -36,7 +36,7 @@
             <p class="contents"><?php print h($item['user_name']); ?>
             <p class="title">発送元の地域：</p>
             <p class="contents"><?php print h($item['item_address']); ?></p>
-            <p class="title">出品までの日数：</p>
+            <p class="title">出荷までの日数：</p>
             <p class="contents"><?php print h($item['shipping_date']); ?></p>
             
             
