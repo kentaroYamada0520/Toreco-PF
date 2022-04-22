@@ -176,7 +176,7 @@ function get_search_items($db, $search_name, $search_name2)
 {
     $search = '%' . preg_replace('/(?=[!_%])/', '!', $search_name) . '%';
     $search2 = '%' . preg_replace('/(?=[!_%])/', '!', $search_name2) . '%';
-    var_dump($search);
+    //var_dump($search);
     $sql = '
     SELECT
       item_id, 

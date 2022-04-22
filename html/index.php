@@ -21,7 +21,7 @@ $user = get_login_user($db);
 //トークン生成1z
 $token = get_csrf_token();
 $search_name = get_post('search');
-var_dump($search_name);
+//var_dump($search_name);
 if (get_post('search')) {
     //検索アイテム情報を取得
     $items = get_search_items($db, $search_name, $search_name);

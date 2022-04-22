@@ -24,13 +24,19 @@ $password = get_post('password');
 $db = get_db_connect();
 //ログイン処理
 // var_dump($db);
+$valid_mail = valid_mail($mail);
 $user = login_as($db, $mail, $password);
-
+// var_dump($mail);
+// var_dump($valid_mail);
 //var_dump($user);
-if ($user === false) {
+if ($valid_mail === false) {
+    set_error('正しいメールアドレスを入力してください');
+    redirect_to(LOGIN_URL);
+} elseif ($user === false) {
     set_error('ログインに失敗しました。');
     redirect_to(LOGIN_URL);
-}
-set_message('ログインしました。');
+} else {
+    set_message('ログインしました。');
 
-redirect_to(HOME_URL);
+    redirect_to(HOME_URL);
+}
