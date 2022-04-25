@@ -200,8 +200,10 @@ function is_valid_mail_address($mail)
     $is_valid = true;
     $mail = $_POST['mail_address'];
     //var_dump($mail);
+    // $pattern =
+    //     "/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$/";
     $pattern =
-        "/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$/";
+        "|^[a-zA-Z0-9.!#$%&'*+=/?^_`{}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$|";
     if (preg_match($pattern, $mail)) {
         $is_valid = true;
     } else {

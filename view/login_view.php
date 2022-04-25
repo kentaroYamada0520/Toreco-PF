@@ -9,7 +9,7 @@
   <?php include VIEW_PATH . 'templates/header.php'; ?>
   <div class="container">
   <div style="padding: 50px; margin-right:auto; margin-left:auto; width:500px; margin-top:60px; margin-bottom: 10px; border: 1px solid #333333;">
-    <h1 style="text-align:center; padding-bottom:20px">ログイン画面</h1>
+    <h1 style="text-align:center; padding-bottom:20px">Toreco ログイン</h1>
 
     <?php include VIEW_PATH . 'templates/messages.php'; ?>
    

@@ -43,7 +43,7 @@
 
 
             <?php if ($trade_success_check > 0) { ?>
-                <button type="button" class="btn btn-lg btn-secondary btn-block" disabled>トレード済みアイテム</button>
+                <button type="button" class="btn btn-lg btn-secondary btn-block" disabled>取引済みアイテム</button>
             <?php } elseif ($user['user_id'] === $item['user_id']) { ?>
                 <button type="button" class="btn btn-lg btn-warning btn-block" disabled>トレードリクエスト送信</button>
             <?php } elseif ($detail === 'detail') { ?>
@@ -64,6 +64,30 @@
                     <input type="hidden" name="csrf_token" value="<?= $token ?>">
                 </form>
             <?php } ?>
+
+            <?php if ($trade_success_check > 0) { ?>
+                <button type="button" class="btn btn-lg btn-success btn-block" disabled>取引済みアイテム</button>
+            <?php } elseif ($user['user_id'] === $item['user_id']) { ?>
+                <button type="button" class="btn btn-lg btn-success btn-block" disabled>カートに追加する</button>
+            <?php } elseif ($detail === 'detail') { ?>
+                <form action="trade_request.php" method="get">
+                    <input type="submit" value="トレードリクエストへ戻る" class="btn btn-outline-info btn-block">
+                    <input type="hidden" name="detail" value="detail">
+                    <input type="hidden" name="csrf_token" value="<?= $token ?>">
+                </form>
+            <?php } else { ?>
+                <form action="item_select.php" method="get">
+                    <input type="submit" value="トレードリクエスト送信" class="btn btn-warning btn-block">
+                    <input type="hidden" name="item_id" value="<?php print h(
+                        $item['item_id']
+                    ); ?>">
+                    <input type="hidden" name="user_id" value="<?php print h(
+                        $item['user_id']
+                    ); ?>">
+                    <input type="hidden" name="csrf_token" value="<?= $token ?>">
+                </form>
+            <?php } ?>
+
         </div>
         </div>
     </div>

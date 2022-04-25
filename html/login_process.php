@@ -30,7 +30,7 @@ $user = login_as($db, $mail, $password);
 // var_dump($valid_mail);
 //var_dump($user);
 if ($valid_mail === false) {
-    set_error('正しいメールアドレスを入力してください');
+    set_error('不正な形式のメールアドレスです。');
     redirect_to(LOGIN_URL);
 } elseif ($user === false) {
     set_error('ログインに失敗しました。');
