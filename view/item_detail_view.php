@@ -41,7 +41,7 @@
             
             
 
-
+           <!-- トレードリクエスト -->
             <?php if ($trade_success_check > 0) { ?>
                 <button type="button" class="btn btn-lg btn-secondary btn-block" disabled>取引済みアイテム</button>
             <?php } elseif ($user['user_id'] === $item['user_id']) { ?>
@@ -65,6 +65,9 @@
                 </form>
             <?php } ?>
 
+    
+    
+            <!--カート追加--> 
             <?php if ($trade_success_check > 0) { ?>
                 <button type="button" class="btn btn-lg btn-success btn-block" disabled>取引済みアイテム</button>
             <?php } elseif ($user['user_id'] === $item['user_id']) { ?>
@@ -76,8 +79,9 @@
                     <input type="hidden" name="csrf_token" value="<?= $token ?>">
                 </form>
             <?php } else { ?>
-                <form action="item_select.php" method="get">
-                    <input type="submit" value="トレードリクエスト送信" class="btn btn-warning btn-block">
+                
+                <form action="cart_process.php" method="get">
+                    <input type="submit" value="カートに追加する" class="btn btn-primary btn-block">
                     <input type="hidden" name="item_id" value="<?php print h(
                         $item['item_id']
                     ); ?>">
