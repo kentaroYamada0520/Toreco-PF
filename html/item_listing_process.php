@@ -9,13 +9,13 @@ require_once MODEL_PATH . 'item.php';
 session_start();
 
 //ログインしていなければログイン画面へ移動
-if(is_logined() === false){
-  redirect_to(LOGIN_URL);
+if (is_logined() === false) {
+    redirect_to(LOGIN_URL);
 }
 
 //POSTで送信されたトークンがセッションにセットされている値を異なる場合はログインページへリダイレクト
-if(is_valid_csrf_token($_POST['csrf_token']) === FALSE){
-  redirect_to(LOGIN_URL);
+if (is_valid_csrf_token($_POST['csrf_token']) === false) {
+    redirect_to(LOGIN_URL);
 }
 
 //データーベースへ接続
@@ -39,10 +39,25 @@ $introduct = get_post('item_introduction');
 
 //var_dump($category);
 //アイテムを出品
-if(regist_item($db, $image, $name, $address, $category, $payment, $price, $status, $trade_item_name, $shipping, $introduct, $user['user_id'])){
-  set_message('アイテムを登録しました。');
-}else {
-  set_error('アイテムの登録に失敗しました。');
+if (
+    regist_item(
+        $db,
+        $image,
+        $name,
+        $address,
+        $category,
+        $payment,
+        $price,
+        $status,
+        $trade_item_name,
+        $shipping,
+        $introduct,
+        $user['user_id']
+    )
+) {
+    set_message('アイテムを登録しました。');
+} else {
+    set_error('アイテムの登録に失敗しました。');
 }
 //var_dump($shipping);
 

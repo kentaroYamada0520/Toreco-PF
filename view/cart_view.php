@@ -10,7 +10,7 @@
 <?php include VIEW_PATH . 'templates/header_logined.php'; ?>
     <h1>カート</h1>
     <div class="row">
-      <?php foreach ((array) $items as $item) { ?>
+      <?php foreach ($items as $item) { ?>
        <div class="col">
          <div class="picture">
            <img src="<?php print $item['item_image']; ?>">

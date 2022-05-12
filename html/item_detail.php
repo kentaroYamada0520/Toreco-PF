@@ -24,6 +24,7 @@ $db = get_db_connect();
 $user = get_login_user($db);
 
 //商品追加処理
+$token = get_csrf_token();
 $item_id = get_get('item_id');
 $request_item_id = get_get('item_id');
 $detail = get_get('detail');

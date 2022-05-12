@@ -261,5 +261,14 @@ function insert_user(
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW());
   ";
 
-    return execute_query($db, $sql, [$mail, $password]);
+    return execute_query($db, $sql, [
+        $real_name,
+        $user_name,
+        $mail,
+        $password,
+        $question_code,
+        $question_answer,
+        $address,
+        $user_introduction,
+    ]);
 }

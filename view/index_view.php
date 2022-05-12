@@ -29,7 +29,7 @@
                      <input type="hidden" name="item_id" value="<?php print h(
                          $item['item_id']
                      ); ?>">
-                    <input type="hidden" name="csrf_token" value="<?= $token ?>">
+                    <input type="hidden" name="csrf_token" value="<?php print $token; ?>">
                   </form>
                   </div>               
   </div>

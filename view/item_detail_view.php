@@ -9,7 +9,11 @@
     </head>
     <body>
     <?php include VIEW_PATH . 'templates/header_logined.php'; ?>
+
+
     <h1>アイテム詳細</h1>
+    <?php include VIEW_PATH . 'templates/messages.php'; ?>
+
     <div class="card mb-3" style="max-width: 1500px;">
     <div class="row g-0">
         <div class="col-md-3">
@@ -72,23 +76,17 @@
                 <button type="button" class="btn btn-lg btn-success btn-block" disabled>取引済みアイテム</button>
             <?php } elseif ($user['user_id'] === $item['user_id']) { ?>
                 <button type="button" class="btn btn-lg btn-success btn-block" disabled>カートに追加する</button>
-            <?php } elseif ($detail === 'detail') { ?>
-                <form action="trade_request.php" method="get">
-                    <input type="submit" value="トレードリクエストへ戻る" class="btn btn-outline-info btn-block">
-                    <input type="hidden" name="detail" value="detail">
-                    <input type="hidden" name="csrf_token" value="<?= $token ?>">
-                </form>
-            <?php } else { ?>
-                
-                <form action="cart_process.php" method="get">
+            
+                <?php } else { ?>
+                <form action = "cart_process.php" method="POST">
                     <input type="submit" value="カートに追加する" class="btn btn-primary btn-block">
                     <input type="hidden" name="item_id" value="<?php print h(
                         $item['item_id']
                     ); ?>">
                     <input type="hidden" name="user_id" value="<?php print h(
-                        $item['user_id']
+                        $user['user_id']
                     ); ?>">
-                    <input type="hidden" name="csrf_token" value="<?= $token ?>">
+                    <input type="hidden" name="csrf_token" value="<?php print $token; ?>">
                 </form>
             <?php } ?>
 

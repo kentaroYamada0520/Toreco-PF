@@ -28,6 +28,7 @@ define('ADMIN_URL', '/admin.php');
 define('TRADE_REQUEST_URL', '/trade_request.php');
 define('TRADE_SUCCESS_HISTORY_URL', '/trade_success_history.php');
 define('CART_URL', '/cart.php');
+define('ITEM_DETAIL_URL', '/item_detail.php');
 
 define('REGEXP_ALPHANUMERIC', '/\A[0-9a-zA-Z]+\z/');
 define('REGEXP_POSITIVE_INTEGER', '/\A([1-9][0-9]*|0)\z/');
