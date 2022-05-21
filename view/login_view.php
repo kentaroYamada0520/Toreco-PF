@@ -18,6 +18,8 @@
       <table style="height:100px;">
         <tr style="padding:20px">
           <td nowrap><label for="mail"><span>メールアドレス：</span> </label></td>
+        
+          <!--mail_address = "ユーザが入力した値"--> 
           <td><input type="text" name="mail_address"  id="mail" class="form-control"></td>
         </tr>
         <tr>

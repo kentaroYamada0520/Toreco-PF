@@ -17,6 +17,7 @@ if (is_valid_csrf_token($_POST['csrf_token']) === false) {
     redirect_to(LOGIN_URL);
 }
 
+//$mail = mail_address = ユーザ入力のメアド
 $mail = get_post('mail_address');
 $password = get_post('password');
 

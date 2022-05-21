@@ -2,22 +2,32 @@
 require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'db.php';
 
-function get_user($db, $mail)
+function get_user($db, $login_mail_address)
 {
     $sql = "
     SELECT
-      user_id,
-      mail_address,
+      usr_id,
+      user_address,
+      real_name,
       user_name,
-      password
+      password,
+      question_answer,
+      address,
+      user_introduction,
+      payment_designated_code,
+      secret_question.question_content
     FROM
       user
+    RIGHT JOIN
+      secret_question
+    ON
+      user.question_code = secret_question.question_code
     WHERE
       mail_address = ?
     LIMIT 1
   ";
 
-    return fetch_query($db, $sql, [$mail]);
+    return fetch_query($db, $sql, [$login_mail_address]);
 }
 
 function get_user_by_mail($db, $mail)

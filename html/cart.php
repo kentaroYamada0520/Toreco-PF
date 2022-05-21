@@ -7,7 +7,6 @@ require_once MODEL_PATH . 'user.php';
 
 session_start();
 
-//ログイン済みであればホーム画面へ移動
 if (is_logined() === false) {
     redirect_to(LOGIN_URL);
 }
@@ -16,11 +15,19 @@ if (is_logined() === false) {
 $db = get_db_connect();
 //ログインユーザー情報取得
 $user = get_login_user($db);
-
-$user_id = 1;
-var_dump($user_id);
+// var_dump($user);
+//トークン生成
+$token = get_csrf_token();
 
 //特定のユーザIDを持つカートからアイテム情報を拾ってくる
-$cart = get_user_cart($db, $user_id);
-// var_dump($cart);
+$items = get_user_cart($db, $sql, $user['user_id']);
+// var_dump($items);
+$total = 0;
+$max = count($items);
+
+foreach ($items as $item) {
+    $pro_price[] = $item['item_price'];
+    $pro_name[] = $item['item_name'];
+}
+
 include_once VIEW_PATH . 'cart_view.php';

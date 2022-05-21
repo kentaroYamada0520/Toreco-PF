@@ -26,6 +26,8 @@ $user = get_login_user($db);
 
 $user_id = $user['user_id'];
 $item_id = get_post('item_id');
+$items = get_user_cart($db, $sql, $user['user_id']);
+$max = count($items);
 // $user_id = $user['user_id'];
 // var_dump($user_id);
 
@@ -36,10 +38,15 @@ $item_id = get_post('item_id');
 //     set_error('カートの更新に失敗しました。');
 // }
 
+if ($max === 5) {
+    set_error('カートがいっぱいです。');
+    redirect_to(CART_URL);
+}
+
 if (add_cart($db, $user_id, $item_id, $cart)) {
     set_message('カートに追加しました。');
 } else {
-    set_error('カートの更新に失敗しました。');
+    set_error('このアイテムは既に追加されています。');
 }
 
-redirect_to(LOGIN_URL);
+redirect_to(CART_URL);

@@ -116,6 +116,8 @@ function get_messages()
     return $messages;
 }
 
+//比較演算子　!==
+
 function is_logined()
 {
     return get_session('mail_address') !== '';
