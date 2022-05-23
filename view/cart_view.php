@@ -71,7 +71,9 @@
          <p>--------------------------------------</p>
          <h3>合計:￥<?php print $total; ?>円</h3>
          <form method="post">
-           <input type="submit" action="" value="レジへ進む" class="btn btn-primary btn-block">
+           <input type="submit" action="" value="レジへ進む" name="<?php print $items[
+               'item_id'
+           ]; ?>" class="btn btn-primary btn-block">
          </form>
          <?php } ?>
        </div>

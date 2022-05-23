@@ -6,28 +6,28 @@ function get_user($db, $login_mail_address)
 {
     $sql = "
     SELECT
-      usr_id,
-      user_address,
-      real_name,
-      user_name,
-      password,
-      question_answer,
-      address,
-      user_introduction,
-      payment_designated_code,
+      user.user_id,
+      user.mail_address,
+      user.real_name,
+      user.user_name,
+      user.password,
       secret_question.question_content
     FROM
-      user
-    RIGHT JOIN
-      secret_question
+      user, secret_question
     ON
       user.question_code = secret_question.question_code
-    WHERE
-      mail_address = ?
+    WHERE   
+      user.mail_address = ?
     LIMIT 1
   ";
 
     return fetch_query($db, $sql, [$login_mail_address]);
+}
+
+function get_login_user($db)
+{
+    $login_mail_address = get_session('mail_address');
+    return get_user($db, $login_mail_address);
 }
 
 function get_user_by_mail($db, $mail)
@@ -76,12 +76,6 @@ function login_as($db, $mail, $password)
         $user['user_name']
     );
     return $user;
-}
-
-function get_login_user($db)
-{
-    $login_mail_address = get_session('mail_address');
-    return get_user($db, $login_mail_address);
 }
 
 function valid_mail($mail)
