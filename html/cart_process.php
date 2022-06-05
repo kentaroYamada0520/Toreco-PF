@@ -23,7 +23,7 @@ if (is_valid_csrf_token($_POST['csrf_token']) === false) {
 $db = get_db_connect();
 //ログインユーザー情報取得
 $user = get_login_user($db);
-
+// var_dump($user);
 $user_id = $user['user_id'];
 $item_id = get_post('item_id');
 $items = get_user_cart($db, $sql, $user['user_id']);

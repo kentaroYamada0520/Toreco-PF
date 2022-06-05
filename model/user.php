@@ -5,21 +5,34 @@ require_once MODEL_PATH . 'db.php';
 function get_user($db, $login_mail_address)
 {
     $sql = "
-    SELECT
-      user.user_id,
-      user.mail_address,
-      user.real_name,
-      user.user_name,
-      user.password,
-      secret_question.question_content
+     SELECT
+      user_id,
+      mail_address,
+      real_name,
+      user_name,
+      password,
+      question_answer,
+      address,
+      user_introduction,
+      user.question_code,
+      user.payment_code AS user_pay,
+      secret_question.question_code,
+      payment.payment_code,
+      secret_question.question_content,
+      payment.payment
     FROM
-      user, secret_question
+      user
+    JOIN
+      secret_question 
     ON
       user.question_code = secret_question.question_code
-    WHERE   
-      user.mail_address = ?
-    LIMIT 1
-  ";
+    JOIN
+      payment
+    ON
+      user.payment_code = payment.payment_code
+    WHERE
+      mail_address = ?
+    ";
 
     return fetch_query($db, $sql, [$login_mail_address]);
 }
@@ -178,7 +191,7 @@ function is_valid_user(
 
 function is_valid_user_name($user_name)
 {
-    $is_valid = true;
+    // $is_valid = true;
     if (
         is_valid_length(
             $user_name,
@@ -193,9 +206,11 @@ function is_valid_user_name($user_name)
                 USER_NAME_LENGTH_MAX .
                 '文字以内にしてください。'
         );
+        return false;
         //$is_validにfalseが入って、is_valid_user_idがfalseになる
-        $is_valid = false;
+        // $is_valid = false;
     }
+    return true;
 }
 
 //is_valid_mail_address($mail)にtrueかfalseを返したい
@@ -275,4 +290,313 @@ function insert_user(
         $address,
         $user_introduction,
     ]);
+}
+
+function get_user_info($db, $user_id)
+{
+    $sql = "
+     SELECT
+      user.real_name,
+      user.user_name,
+      user.mail_address,
+      user.password,
+      secret_question.question_content,
+      user.question_answer,
+      user.address,
+      user.payment,
+      user.user_introduction
+     FROM
+      user
+     JOIN
+        secret_question
+     ON
+      user.question_code = secret_question.question_code
+    WHERE
+      user_id = ?
+    ";
+    return fetch_query($db, $sql, [$user_id]);
+}
+
+function get_payment($db, $user_id)
+{
+    $sql = "
+    SELECT
+      payment_code
+    FROM
+      user
+    WHERE
+      user_id = ?
+    AND
+      payment_code = 0
+    ";
+    return fetch_query($db, $sql, [$user_id]);
+}
+
+function edit_user(
+    $db,
+    $real_name,
+    $user_name,
+    $password,
+    $question_code,
+    $question_answer,
+    $address,
+    $payment,
+    $user_introduction,
+    $user_id
+) {
+    $sql = "
+        UPDATE
+          user
+        SET
+          real_name = ?,
+          user_name = ?,
+          password = ?,
+          question_code = ?,
+          question_answer = ?,
+          address = ?,
+          payment_code = ?,
+          user_introduction = ?
+        WHERE
+          user_id = ?
+        ";
+    return execute_query($db, $sql, [
+        $real_name,
+        $user_name,
+        $password,
+        $question_code,
+        $question_answer,
+        $address,
+        $payment,
+        $user_introduction,
+        $user_id,
+    ]);
+}
+
+function edit_check(
+    $real_name,
+    $user_name,
+    $password,
+    $question_code,
+    $question_answer,
+    $address,
+    $payment
+) {
+    $check_real_name = check_real_name($real_name);
+    $check_user_name = check_user_name($user_name);
+    $check_password = check_password($password);
+    $check_question_code = check_question_code($question_code);
+    $check_question_answer = check_question_answer($question_answer);
+    $check_address = check_address($address);
+    $check_payment = check_payment($payment);
+
+    if (
+        $check_real_name === true &&
+        $check_user_name === true &&
+        $check_password === true &&
+        $check_question_code === true &&
+        $check_question_answer === true &&
+        $check_address === true &&
+        $check_payment === true
+    ) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function check_real_name($real_name)
+{
+    if ($real_name == !'') {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function check_user_name($user_name)
+{
+    if ($user_name == !'') {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function check_password($password)
+{
+    if ($password == !'') {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function check_question_code($question_code)
+{
+    if ($question_code == !'') {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function check_question_answer($question_answer)
+{
+    if ($question_answer == !'') {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function check_address($address)
+{
+    if ($address == !'') {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function check_payment($payment)
+{
+    if ($payment == !'') {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function update_user(
+    $db,
+    $real_name,
+    $user_name,
+    $password_now,
+    $password,
+    $password_confirmation,
+    $question_code,
+    $question_answer,
+    $address,
+    $payment,
+    $user_introduction,
+    $user_id,
+    $user
+) {
+    if (
+        is_valid_update_user(
+            $real_name,
+            $user_name,
+            $password_now,
+            $password,
+            $password_confirmation,
+            $question_answer,
+            $address,
+            $user
+        ) === false
+    ) {
+        return false;
+    }
+    //falseなら処理がここで終了
+    //falseでなければ下の処理で入力値が登録される処理に進む
+    return edit_user(
+        $db,
+        $real_name,
+        $user_name,
+        $password,
+        $question_code,
+        $question_answer,
+        $address,
+        $payment,
+        $user_introduction,
+        $user_id
+    );
+}
+
+function is_valid_update_user(
+    $real_name,
+    $user_name,
+    $password_now,
+    $password,
+    $password_confirmation,
+    $question_answer,
+    $address,
+    $user
+) {
+    // 短絡評価を避けるため一旦代入。
+    $is_valid_real_name = is_valid_real_name($real_name);
+    $is_valid_user_name = is_valid_user_names($user_name);
+    $is_valid_password = password_change(
+        $password_now,
+        $user,
+        $password,
+        $password_confirmation
+    );
+    $is_valid_question_answer = is_valid_question_answer($question_answer);
+    $is_valid_address = is_valid_address($address);
+
+    // return $is_valid_real_name &&
+    //     $is_valid_address &&
+    //     $is_valid_question_answer &&
+    //     $is_valid_user_name &&
+    //     $is_valid_password;
+    if (
+        $is_valid_real_name === true &&
+        $is_valid_user_name === true &&
+        $is_valid_password === true &&
+        $is_valid_question_answer === true &&
+        $is_valid_address === true
+    ) {
+        return true;
+    }
+    return false;
+}
+
+function password_change(
+    $password_now,
+    $user,
+    $password,
+    $password_confirmation
+) {
+    if ($password_now === '') {
+        $password = $user['password'];
+        return true;
+    } else {
+        if ($password_now === $user['password']) {
+            return is_valid_password($password, $password_confirmation);
+        }
+        set_error('パスワードが一致しません。');
+        return false;
+    }
+}
+
+function is_valid_real_name($real_name)
+{
+    if ($real_name === '') {
+        return false;
+    }
+    return true;
+}
+
+function is_valid_user_names($user_name)
+{
+    if ($user_name === '') {
+        return false;
+    }
+    return true;
+}
+
+function is_valid_address($address)
+{
+    if ($address === '') {
+        return false;
+    }
+    return true;
+}
+
+function is_valid_question_answer($question_answer)
+{
+    if ($question_answer === '') {
+        return false;
+    }
+    return true;
 }

@@ -51,29 +51,30 @@
        <?php if ($max === 0) { ?> 
           <?php } else { ?>
             <!-- <div class="col-3 border border-primary rounded border-7" style="height: 400px"> -->
-            <div class="col-3" style="border-style:solid; border-width:2px; height:450px;">
-            <h3>カート内アイテム</h3>
-         <table style="border-collapse:separate; border-spacing:10px;">
-            <tr>
-              <th>アイテム名</th>
-              <th>小計</th>
-            </tr>
-            <?php for ($i = 0; $i < $max; $i++) {
-                $total += $pro_price[$i]; ?>
-         
-            <tr>
-              <td><?php print $pro_name[$i]; ?></td>
-              <td>￥<?php print $pro_price[$i]; ?>円</td>
-            </tr>
-            <?php
-            } ?>
-          </table>
-         <p>--------------------------------------</p>
-         <h3>合計:￥<?php print $total; ?>円</h3>
-         <form method="post">
-           <input type="submit" action="" value="レジへ進む" name="<?php print $items[
-               'item_id'
-           ]; ?>" class="btn btn-primary btn-block">
+            <div class="col-3">
+            <h4 class="d-flex justify-content-between align-items-center md-3">
+        <span class="text-primary">カート</span>
+        <span class="badge bg-primary rounded-pill" style="color: #fff;"><?php print $max; ?></span>
+      </h4>
+      <ul class="list-group mb-3">
+      <?php for ($i = 0; $i < $max; $i++) {
+          $total += $pro_price[$i]; ?>
+        <li class="list-group-item d-flex justify-content-between lh-sm">
+          <div>
+            <h6 class="my-0"><?php print $pro_name[$i]; ?></h6>
+            <small class="text-muted"><?php print $pro_category[$i]; ?></small>
+          </div>
+         <span class="text-muted">￥<?php print $pro_price[$i]; ?>円</span>
+        </li>
+        <?php
+      } ?>
+        <li class="list-group-item d-flex justify-content-between">
+          <span>合計</span>
+          <strong>￥<?php print $total; ?>円</strong>
+        </li>
+      </ul>
+         <form action="purchase.php" method="post">
+           <input type="submit" value="レジへ進む"  class="btn btn-primary btn-block">
          </form>
          <?php } ?>
        </div>

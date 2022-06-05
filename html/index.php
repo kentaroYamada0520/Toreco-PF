@@ -30,6 +30,6 @@ if (get_post('search')) {
     $items = get_items($db);
 }
 
-//var_dump($items);
+// var_dump($items);
 
 include_once VIEW_PATH . 'index_view.php';

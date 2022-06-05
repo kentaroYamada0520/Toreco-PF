@@ -29,7 +29,7 @@ $valid_mail = valid_mail($mail);
 $user = login_as($db, $mail, $password);
 // var_dump($mail);
 // var_dump($valid_mail);
-//var_dump($user);
+//
 if ($valid_mail === false) {
     set_error('不正な形式のメールアドレスです。');
     redirect_to(LOGIN_URL);

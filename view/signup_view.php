@@ -4,7 +4,7 @@
   <?php include VIEW_PATH . 'templates/head.php'; ?>
   <?php require_once MODEL_PATH . 'db.php'; ?>
   <title>サインアップ</title>
-  <link rel="stylesheet" href="<?php print(STYLESHEET_PATH . 'signup.css'); ?>">
+  <link rel="stylesheet" href="<?php print STYLESHEET_PATH . 'signup.css'; ?>">
 </head>
 <body>
   <?php include VIEW_PATH . 'templates/header.php'; ?>
@@ -39,8 +39,10 @@
        <label for="question">秘密の質問</label>
        <select id="question">
        <option>選択してください</option>
-         <?php foreach($questions as $question){  ?>
-          <option name = "<?php print $question['question_code']?>"><?php print $question['question_content']?></option>
+         <?php foreach ($questions as $question) { ?>
+          <option name = "<?php print $question[
+              'question_code'
+          ]; ?>"><?php print $question['question_content']; ?></option>
         <?php } ?>   
        </select>
       
@@ -54,11 +56,16 @@
         <input type="text" name="user_address" id="address" class="form-control">
       </div>
       <div class="form-group">
+        <label for="payment">支払方法: </label>
+        <input type="radio" id="cash" value="cash" name="payment"><label for="cash">現金</label>
+        <input type="radio" id="credit" value="credit" name="payment"><label for="credit">クレジット</label>
+      </div>
+      <div class="form-group">
         <label for="textarea">自己紹介文: </label>
         <textarea name="textarea" id="textarea" class="form-control" rows="6"></textarea>
       </div>
       <input type="submit" value="登録" class="btn btn-primary">
-      <input type="hidden" name="csrf_token" value="<?=$token?>">
+      <input type="hidden" name="csrf_token" value="<?= $token ?>">
     </form>
   </div>
 </body>

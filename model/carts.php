@@ -10,13 +10,20 @@ function get_user_cart($db, $sql, $user)
       cart_info.cart_id,
       itemInfo.item_name,
       itemInfo.item_price,
-      itemInfo.item_image
+      itemInfo.item_image,
+      itemInfo.category_code,
+      item_category.category_code,
+      item_category.category_name
     FROM
       cart_info
     RIGHT JOIN
       itemInfo
     ON
       cart_info.item_id = itemInfo.item_id
+    RIGHT JOIN
+      item_category
+    ON
+      itemInfo.category_code = item_category.category_code
     WHERE
       cart_info.user_id = ?
   ";
@@ -66,4 +73,52 @@ function delete_cart($db, $sql, $cart_id)
    cart_id = ?
   ";
     return execute_query($db, $sql, [$cart_id]);
+}
+
+function get_item_id($db, $sql, $user_id)
+{
+    $sql = "
+    SELECT
+     item_id
+    FROM
+     cart_info
+    WHERE
+     user_id = ?
+  ";
+    return fetch_query($db, $sql, [$user_id]);
+}
+
+function purchase_confirm($db, $sql, $item_id)
+{
+    $sql = "
+    UPDATE
+     itemInfo
+    SET
+     flag = '1'
+    WHERE
+     item_id = ?
+   ";
+    return execute_query($db, $sql, [intval($item_id)]);
+}
+
+function purchase_cart($db, $sql, $user_id)
+{
+    $sql = "
+    DELETE
+    FROM
+     cart_info
+    WHERE
+     user_id = ?
+  ";
+    return execute_query($db, $sql, [$user_id]);
+}
+
+function purchase_history($db, $sql, $user_id, $item_id)
+{
+    $sql = "
+  INSERT INTO
+    purchase_history(user_id,item_id,now)
+ VALUES(?,?,NOW())
+  ";
+    return execute_query($db, $sql, [$user_id, intval($item_id)]);
 }
