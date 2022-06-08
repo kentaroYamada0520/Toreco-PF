@@ -30,6 +30,122 @@ function get_user_cart($db, $sql, $user)
     return fetch_all_query($db, $sql, [$user]);
 }
 
+function get_user_cart1($db, $sql, $user)
+{
+    $sql = "
+  SELECT
+    cart_info.cart_id,
+    cart_info.user_id,
+    cart_info.item_id,
+    user.user_id,
+    user.user_name,
+    user.mail_address,
+    itemInfo.item_id,
+    itemInfo.item_name,
+    itemInfo.item_price,
+    itemInfo.item_image,
+    itemInfo.category_code,
+    itemInfo.shipping_code,
+    item_category.category_code,
+    item_category.category_name
+  FROM
+    cart_info
+  RIGHT JOIN
+    user
+  ON
+    cart_info.user_id = user.user_id
+  RIGHT JOIN
+    itemInfo
+  ON
+    cart_info.item_id = itemInfo.item_id
+  RIGHT JOIN
+    item_category
+  ON
+    itemInfo.category_code = item_category.category_code
+  WHERE
+    cart_info.user_id = ?
+";
+    return fetch_all_query($db, $sql, [$user]);
+}
+
+// $sql = "
+//     SELECT
+//       cart_info.cart_id,
+//       cart_info.user_id,
+//       cart_info.item_id,
+//       user.user_id,
+//       user.user_name,
+//       user.mail_address,
+//       itemInfo.item_id,
+//       itemInfo.item_name,
+//       itemInfo.item_price,
+//       itemInfo.item_image,
+//       itemInfo.category_code,
+//       itemInfo.shipping_code,
+//       item_category.category_code,
+//       item_category.category_name,
+//     FROM
+//       cart_info
+//     RIGHT JOIN
+//       user
+//     ON
+//       cart_info.user_id = user.user_id
+//     RIGHT JOIN
+//       itemInfo
+//     ON
+//       cart_info.item_id = itemInfo.item_id
+//     RIGHT JOIN
+//       item_category
+//     ON
+//       itemInfo.category_code = item_category.category_code
+//     WHERE
+//       cart_info.user_id = ?
+//   ";
+//     return fetch_all_query($db, $sql, [$user]);
+
+// function get_user_cart($db, $sql, $user)
+// {
+//     $sql = "
+//     SELECT
+//       cart_info.cart_id,
+//       cart_info.item_id,
+//       itemInfo.item_id,
+//       itemInfo.user_id,
+//       itemInfo.item_name,
+//       itemInfo.item_price,
+//       itemInfo.item_image,
+//       itemInfo.category_code,
+//       itemINfo.shipping_code,
+//       user.user_id
+//       user.user_name,
+//       user.mail_address,
+//       item_category.category_code,
+//       item_category.category_name,
+//       shipping.shipping_code
+//     FROM
+//       cart_infoS
+//     RIGHT JOIN
+//       itemInfo
+//     ON
+//       cart_info.item_id = itemInfo.item_id
+//     RIGHT JOIN
+//       item_category
+//     ON
+//       itemInfo.category_code = item_category.category_code
+//     RIGHT JOIN
+//       shipping
+//     ON
+//       itemInfo.shipping_code = shipping.shipping_code
+//     RIGHT JOIN
+//       userInfo
+//     ON
+//       itemInfo.user_id = user.user_id
+//     WHERE
+//       cart_info.user_id = ?
+//   ";
+//     return fetch_all_query($db, $sql, [$user]);
+// }
+
 function get_cart($db, $user_id, $item_id)
 {
     $sql = "

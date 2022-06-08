@@ -162,7 +162,8 @@ function regist_user(
         $question_code,
         $question_answer,
         $address,
-        $user_introduction
+        $user_introduction,
+        $payment
     );
 }
 

@@ -112,6 +112,27 @@ function get_items($db)
     return fetch_all_query($db, $sql);
 }
 
+function get_user_items($db, $user_id)
+{
+    $sql = '
+    SELECT
+      item_id, 
+      user_id,
+      item_name,
+      item_image,
+      item_price,
+      status_code,
+      trade_item_name,
+      itemInfo.created
+    FROM
+      itemInfo
+    WHERE
+      user_id = ?
+    ';
+
+    return fetch_all_query($db, $sql, [$user_id]);
+}
+
 // function get_items($db){
 //   $sql = '
 //     SELECT
