@@ -73,6 +73,23 @@ function select_question($db)
     return fetch_all_query($db, $sql);
 }
 
+function conrirm_question($db, $mail, $question, $answer)
+{
+    $sql = "
+      SELECT
+       password
+      FROM
+       user
+      WHERE
+       mail_address = ?
+      AND
+       question_code = ?
+      AND
+       question_answer = ?    
+    ";
+    return fetch_query($db, $sql, [$mail, $question, $answer]);
+}
+
 //このメソッドでtrueが帰ってきたらログインできる
 function login_as($db, $mail, $password)
 {

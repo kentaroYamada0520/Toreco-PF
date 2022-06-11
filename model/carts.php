@@ -238,3 +238,21 @@ function purchase_history($db, $sql, $user_id, $item_id)
   ";
     return execute_query($db, $sql, [$user_id, intval($item_id)]);
 }
+
+function get_purchase_history($db, $user_id)
+{
+    $sql = "
+    SELECT
+     purchase_history.item_id,
+     itemInfo.item_id
+    FROM
+     purchase_history
+    JOIN
+     itemInfo
+    ON
+     purchase_history.item_id = itemInfo.item_id
+    WHERE
+     user_id = ?
+  ";
+    return fetch_query($db, $sql, [$user_id]);
+}

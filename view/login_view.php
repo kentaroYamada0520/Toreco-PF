@@ -38,6 +38,9 @@
     </td>
     </form>
     <center>
+    <a href="<?php print PASSWORD_URL; ?>" style="text-align:center; ">パスワードを忘れた方はこちら</a>
+    </center>
+    <center>
     <a href="<?php print SIGNUP_URL; ?>" style="text-align:center; ">アカウント新規作成はこちら</a>
     </center>
    </div>
