@@ -24,3 +24,4 @@ $request_user_id = $user["user_id"];
 $trade_success_historise = get_trade_success_history($db, $user_id, $request_user_id);
 
 include_once VIEW_PATH . 'trade_success_history_view.php';
+

@@ -8,6 +8,7 @@ require_once MODEL_PATH . 'db.php';
 
 session_start();
 
+
 //ログイン済みであればホーム画面へ移動
 if(is_logined() === true){
   redirect_to(HOME_URL);
