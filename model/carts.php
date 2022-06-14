@@ -256,3 +256,5 @@ function get_purchase_history($db, $user_id)
   ";
     return fetch_query($db, $sql, [$user_id]);
 }
+
+//
