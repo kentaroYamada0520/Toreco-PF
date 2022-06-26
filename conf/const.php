@@ -12,6 +12,7 @@ define('IMAGE_DIR', $_SERVER['DOCUMENT_ROOT'] . '/assets/images/');
 // }else {
 define('DB_HOST', 'mysql');
 // }
+
 define('DB_NAME', 'sample');
 define('DB_USER', 'testuser');
 define('DB_PASS', 'password');
