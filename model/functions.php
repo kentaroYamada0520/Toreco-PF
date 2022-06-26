@@ -180,14 +180,14 @@ function is_valid_upload_image($image)
         return false;
     }
     $mimetype = exif_imagetype($image['tmp_name']);
-    if (isset(PERMITTED_IMAGE_TYPES[$mimetype]) === false) {
-        set_error(
-            'ファイル形式は' .
-                implode('、', PERMITTED_IMAGE_TYPES) .
-                'のみ利用可能です。'
-        );
-        return false;
-    }
+    // if (isset(PERMITTED_IMAGE_TYPES[$mimetype]) === false) {
+    //     set_error(
+    //         'ファイル形式は' .
+    //             implode('、', PERMITTED_IMAGE_TYPES) .
+    //             'のみ利用可能です。'
+    //     );
+    //     return false;
+    // }
     return true;
 }
 

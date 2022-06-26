@@ -54,13 +54,13 @@ define('ITEM_NAME_LENGTH_MAX', 100);
 define('ITEM_STATUS_OPEN', 1);
 define('ITEM_STATUS_CLOSE', 0);
 
-define('PERMITTED_ITEM_QUALITY', [
-    'newitem' => 0,
-    'nobaditem' => 1,
-    'baditem' => 2,
-]);
+// define('PERMITTED_ITEM_QUALITY', array(
+//     'newitem' => 0,
+//     'nobaditem' => 1,
+//     'baditem' => 2
+// ));
 
-define('PERMITTED_IMAGE_TYPES', [
-    IMAGETYPE_JPEG => 'jpg',
-    IMAGETYPE_PNG => 'png',
-]);
+// define('PERMITTED_IMAGE_TYPES', array(
+//     IMAGETYPE_JPEG => 'jpg',
+//     IMAGETYPE_PNG => 'png'
+// ));
