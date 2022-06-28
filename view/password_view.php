@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="<?php print STYLESHEET_PATH . 'login.css'; ?>">
 </head>
 
+
 <body>
 <?php include VIEW_PATH . 'templates/header.php'; ?>
   <div class="container">
