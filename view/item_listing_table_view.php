@@ -32,9 +32,9 @@
                      ); ?>">
                     <input type="hidden" name="csrf_token" value="<?php print $token; ?>">
                   </form>
-                  <label style="text:center;">￥<?php print $item[
+                  <!-- <label style="text:right;">￥<?php print $item[
                       'item_price'
-                  ]; ?></label>
+                  ]; ?></label> -->
                   </div>               
   </div>
 </div>

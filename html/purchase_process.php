@@ -41,6 +41,7 @@ $total = 0;
 $max = count($items);
 // var_dump($count);
 
+
 foreach ($items as $item) {
     $pro_price[] = $item['item_price'];
     $pro_shipping[] = $item['shipping_code'];

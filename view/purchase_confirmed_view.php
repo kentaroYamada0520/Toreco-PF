@@ -3,7 +3,7 @@
 <head>
 <?php include VIEW_PATH . 'templates/head.php'; ?>
   
-  <title>精算画面</title>
+  <title>購入確認画面</title>
   <link rel="stylesheet" href="<?php print STYLESHEET_PATH . 'index.css'; ?>">
 </head>
 
@@ -12,11 +12,12 @@
   <div class="container">
    <main>
     <div class="py-5 text-center">
-      <h2>精算フォーム</h2>
+      <h2>購入確認画面</h2>
       <?php include VIEW_PATH . 'templates/messages.php'; ?>
-      <p class="lead">請求情報を入力してください。</p>
     </div>
     
+
+
     <div class="row g-5">
     <div class="col-md-5 col-lg-4 order-md-last">
       <h4 class="d-flex justify-content-between align-items-center md-3">
@@ -42,27 +43,24 @@
       </ul>
     </div>
 
+
+
+
     <div class="col-md-7 col-lg-8">
       <h4 class="mb-3">請求先住所</h4>
-      <form method="post" action="purchase_confirmed_process.php" class="needs-validation" nobalidate>
+      <form method="post" action="purchase_process.php" class="needs-validation" nobalidate>
        <div class="row g-3">
         <div class="col-sm-6" style="padding:10px;">
           <label for="real_name" class="form-label">名前</label>
-          <input type="text" id="real_name" class="form-control" name="real_name" value="<?php print $user[
-              'real_name'
-          ]; ?>">
+          <p class="form-control" name="real_name" value="<?php print $real_name ?>"><?php print $real_name ?></p>
         </div>
         <div class="col-12">
           <label for="mail_address" class="form-label">メールアドレス</label>
-          <input type="text" id="mail_address" class="form-control" name="mail_address" value="<?php print $user[
-              'mail_address'
-          ]; ?>">
+          <p class="form-control" name="mail_address" value="<?php print $mail_address ?>"><?php print $mail_address ?></p>
         </div>
         <div class="col-12">
           <label for="address" class="form-label">住所</label>
-          <input type="text" id="address" class="form-control" name="address" value="<?php print $user[
-              'address'
-          ]; ?>">
+          <p class="form-control" name="address" value="<?php print $address ?>"><?php print $address ?></p>
         </div>
         <hr class="my-4">
          <h4 class="mb-3"  style="padding:10px;">お支払方法</h4>
@@ -78,23 +76,21 @@
            <div class="row gy-3" style="padding:10px;">
                <div class="col-md-6"> 
                  <label for="cc-name" class="form-label">カードの名義</label>
-                 <input type="text" class="form-control" id="cc-name" name="cc_name" placeholder required>
-                 <small class="text-muted">カード上に表示されているフルネーム</small>
-                 <div class="invalid-feedback">カードの名義を入力してください</div>
+                 <p class="form-control" name="cc_name" value="<?php print $cc_name ?>"><?php print $cc_name ?></p>
                </div>
                <div class="col-md-6">
                  <label for="cc-number" class="form-label">クレジットカード番号</label>
-                 <input type="text" class="form-control" id="cc-number" name="cc_number" placeholder required>
+                 <p class="form-control" name="cc_number" value="<?php print $cc_number ?>"><?php print $cc_number ?></p>
                  <!-- <div class="invalid-feedback">クレジットカード番号を入力してください</div> -->
                </div>
                <div class="col-md-3">
                  <label for="cc-expiration" class="form-label">有効期限</label>
-                 <input type="text" class="form-control" id="cc-expiration" name="cc_expiration" placeholder required>
+                 <p class="form-control" name="cc_expiration" value="<?php print $cc_expiration ?>"><?php print $cc_expiration ?></p>
                  <!-- <div class="invalid-feedback">有効期限を入力してください</div> -->
                </div>
                <div class="col-md-3">
                  <label for="cc-cvv" class="form-label">セキュリティコード</label>
-                 <input type="text" class="form-control" id="cc-cvv" name="cc_cvv" placeholder required>
+                 <p class="form-control" name="cc_cvv" value="<?php print $cc_cvv ?>"><?php print $cc_cvv ?></p>
                  <!-- <div class="invalid-feedback">セキュリティコードを入力してください</div> -->
                </div>
            </div>
@@ -113,8 +109,11 @@
            <?php } ?>
          </div>
            <hr class="my-4">
-           <button class="w-100 btn btn-primary btn-lg" type="submit">確認画面へ</button>
+           <button class="w-100 btn btn-primary btn-lg" type="submit">精算を確定する</button>
            <input type="hidden" name="sum_price" value="<?php print $total; ?>">
+      </form>
+      <form method="post" action="purchase.php">
+        <input type="submit" value="戻る"  class="btn btn-warning btn-block">
       </form>
     </div>
     </div>
