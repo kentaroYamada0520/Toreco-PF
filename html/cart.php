@@ -19,11 +19,14 @@ $user = get_login_user($db);
 //トークン生成
 $token = get_csrf_token();
 
+
+
 //特定のユーザIDを持つカートからアイテム情報を拾ってくる
 $items = get_user_cart($db, $sql, $user['user_id']);
 // var_dump($items);
 $total = 0;
 $max = count($items);
+var_dump($max);
 
 foreach ($items as $item) {
     $pro_price[] = $item['item_price'];

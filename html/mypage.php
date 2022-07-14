@@ -21,9 +21,12 @@ $db = get_db_connect();
 $user = get_login_user($db);
 $token = get_csrf_token();
 $user_id = $user['user_id'];
-$items = get_purchase_history($db, $user_id);
+// $items = get_purchase_history($db, $user_id);
+$amount = 10;
+$result = intval('10', 16);
+var_dump($result);
 
-var_dump($items);
+// var_dump($items);
 // var_dump($user);
 
 // var_dump($user);

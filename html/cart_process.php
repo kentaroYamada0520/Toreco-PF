@@ -9,7 +9,7 @@ require_once MODEL_PATH . 'db.php';
 
 session_start();
 
-//ログイン済みであればホーム画面へ移動
+//ログイン済みであればログイン画面へ移動
 if (is_logined() === false) {
     redirect_to(LOGIN_URL);
 }
@@ -26,6 +26,7 @@ $user = get_login_user($db);
 // var_dump($user);
 $user_id = $user['user_id'];
 $item_id = get_post('item_id');
+//カート内アイテムの数をとってくる
 $items = get_user_cart($db, $sql, $user['user_id']);
 $max = count($items);
 // $user_id = $user['user_id'];

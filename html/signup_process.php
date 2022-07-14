@@ -23,10 +23,11 @@ $user_name = get_post('user_name');
 $mail = get_post('mail_address');
 $password = get_post('password');
 $password_confirmation = get_post('password_confirmation');
-$question_content = get_post('question_code');
-$answer = get_post('question_answer');
+$question = get_post('question_code');
+$question_answer = get_post('question_answer');
 $address = get_post('address');
 $payment = get_post('payment');
+$introduction = get_post('introduction');
 $db = get_db_connect();
 
 try {
@@ -35,16 +36,17 @@ try {
         $db,
         $real_name,
         $user_name,
-        $mail_address,
+        $mail,
         $password,
         $password_confirmation,
-        $question_code,
+        $question,
         $question_answer,
         $address,
         $payment,
-        $user_introduction
+        $introduction,
+        $sql
     );
-    if ($result === false || $result2 === false) {
+    if ($result === false) {
         set_error('ユーザー登録に失敗しました。');
         redirect_to(SIGNUP_URL);
         //falseなら処理がここで終了

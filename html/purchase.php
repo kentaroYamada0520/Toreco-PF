@@ -19,6 +19,16 @@ $user_id = $user['user_id'];
 $pay = get_payment($db, $user_id);
 // var_dump($items);
 
+//購入確認画面から戻るときの値保存
+$real_name = get_post('real_name');
+$mail_address = get_post('mail_address');   
+$address = get_post('address');
+$cc_name = get_post('cc_name');
+$cc_number = get_post('cc_number');
+$cc_expiration = get_post('cc_expiration');
+$cc_cvv = get_post('cc_cvv');
+$flag = get_post('flag');
+
 $total = 0;
 $max = count($items);
 

@@ -24,7 +24,7 @@
           <a class="nav-link active" href="<?php print LISTING_TABLE_URL; ?>">出品一覧</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="<?php print TRADE_SUCCESS_HISTORY_URL; ?>">履歴</a>
+          <a class="nav-link active" href="<?php print PURCHASE_HISTORY_URL; ?>">履歴</a>
         </li>
         <li class="nav-item">
           <a class="nav-link active" href="<?php print CART_URL; ?>">カートへ</a>

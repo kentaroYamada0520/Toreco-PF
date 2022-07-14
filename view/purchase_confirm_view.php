@@ -12,7 +12,10 @@
 
 <h1 class="text-center">購入が確定しました。</h1>
 <hr class="my-6"></div>
-<div class="text-left" style="padding-left:500px;">
+<div class="row">
+ <div class="col-md-2"></div>
+ <div class="col-md-8">
+<div style="text-align:center;">
 <h3>支払金額：￥<?php print $sum_price; ?></h3>
 <h3>支払方法：<?php if ($pay === false) { ?>
            <stron>クレジットカード</stron></h3>
@@ -48,6 +51,9 @@
        <td><?php print $pro_user_name[$i]; ?></td>
        <td><?php print $pro_mail[$i]; ?></td>
    </tbody>
+   </div>
+   <div class="col-md-2"></div>
+   </div>
    <?php
    } ?>
 </table>    

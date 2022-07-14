@@ -45,7 +45,7 @@
 
 
 
-
+   
     <div class="col-md-7 col-lg-8">
       <h4 class="mb-3">請求先住所</h4>
       <form method="post" action="purchase_process.php" class="needs-validation" nobalidate>
@@ -107,6 +107,7 @@
              <h4>現金</h4>
            </div>
            <?php } ?>
+
          </div>
            <hr class="my-4">
            <button class="w-100 btn btn-primary btn-lg" type="submit">精算を確定する</button>
@@ -114,6 +115,7 @@
       </form>
       <form method="post" action="purchase.php">
         <input type="submit" value="戻る"  class="btn btn-warning btn-block">
+        <input type="hidden" name="flag" value="1">
       </form>
     </div>
     </div>

@@ -46,6 +46,7 @@
       <h4 class="mb-3">請求先住所</h4>
       <form method="post" action="purchase_confirmed_process.php" class="needs-validation" nobalidate>
        <div class="row g-3">
+         <?php if($flag = "0"){ ?>
         <div class="col-sm-6" style="padding:10px;">
           <label for="real_name" class="form-label">名前</label>
           <input type="text" id="real_name" class="form-control" name="real_name" value="<?php print $user[
@@ -98,6 +99,13 @@
                  <!-- <div class="invalid-feedback">セキュリティコードを入力してください</div> -->
                </div>
            </div>
+
+           
+
+           <?php }else{ ?>
+
+           
+           <?php } ?>
            <?php } else { ?>
             <!-- <div class="form-check">
              <input id="cash" name="payment_code" value="0" type="radio" class="form-check-input" required checked>
@@ -115,6 +123,7 @@
            <hr class="my-4">
            <button class="w-100 btn btn-primary btn-lg" type="submit">確認画面へ</button>
            <input type="hidden" name="sum_price" value="<?php print $total; ?>">
+           <input type="hidden" name="flag" value="0">
       </form>
     </div>
     </div>

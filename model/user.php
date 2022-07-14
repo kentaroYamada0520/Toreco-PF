@@ -148,61 +148,58 @@ function regist_user(
     $mail,
     $password,
     $password_confirmation,
-    $question_code,
+    $question,
     $question_answer,
     $address,
-    $user_introduction
+    $payment,
+    $introduction,
+    $sql
 ) {
     if (
         is_valid_user(
+            $db,
+            $user_name,
+            $mail,
+            $password,
+            $password_confirmation,
+            $sql
+        ) === false
+    ) {
+        return false;
+    } else {
+        //falseなら処理がここで終了
+        //falseでなければ下の処理で入力値が登録される処理に進む
+        return insert_user(
             $db,
             $real_name,
             $user_name,
             $mail,
             $password,
-            $password_confirmation,
-            $question_code,
+            $question,
             $question_answer,
             $address,
-            $user_introduction
-        ) === false
-    ) {
-        return false;
+            $payment,
+            $introduction
+        );
     }
-    //falseなら処理がここで終了
-    //falseでなければ下の処理で入力値が登録される処理に進む
-    return insert_user(
-        $db,
-        $real_name,
-        $mail,
-        $password,
-        $question_code,
-        $question_answer,
-        $address,
-        $user_introduction,
-        $payment
-    );
 }
 
-function is_admin($user)
-{
-    return $user['type'] === USER_TYPE_ADMIN;
-}
+// function is_admin($user)
+// {
+//     return $user['type'] === USER_TYPE_ADMIN;
+// }
 
 function is_valid_user(
-    $real_name,
+    $db,
     $user_name,
     $mail,
     $password,
     $password_confirmation,
-    $question_code,
-    $question_answer,
-    $address,
-    $user_introduction
+    $sql
 ) {
     // 短絡評価を避けるため一旦代入。
     $is_valid_user_name = is_valid_user_name($user_name);
-    $is_valid_mail_address = is_valid_mail_address($mail);
+    $is_valid_mail_address = is_valid_mail_address($db, $sql, $mail);
     $is_valid_password = is_valid_password($password, $password_confirmation);
     return $is_valid_user_name && $is_valid_mail_address && $is_valid_password;
 }
@@ -231,16 +228,42 @@ function is_valid_user_name($user_name)
     return true;
 }
 
-//is_valid_mail_address($mail)にtrueかfalseを返したい
-function is_valid_mail_address($mail)
+function get_mail_address($db, $sql, $mail)
+{
+    $sql = "
+     SELECT
+      mail_address
+     FROM
+      user
+     WHERE
+      mail_address = ?
+    ";
+    return fetch_query($db, $sql, [$mail]);
+}
+
+// function is_valid_mail_address($db, $sql, $mail)
+// {
+//     $result = valid_mail_address($mail);
+//     $result2 = get_mail_address($db, $sql, $mail);
+//     if ($result === false || $result2 === false) {
+//         return false;
+//     } else {
+//         return true;
+//     }
+// }
+
+function is_valid_mail_address($db, $sql, $mail)
 {
     $is_valid = true;
-    $mail = $_POST['mail_address'];
     //var_dump($mail);
     // $pattern =
     //     "/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$/";
+    $result = get_mail_address($db, $sql, $mail);
     $pattern =
         "|^[a-zA-Z0-9.!#$%&'*+=/?^_`{}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$|";
+    if ($result === false) {
+        return false;
+    }
     if (preg_match($pattern, $mail)) {
         $is_valid = true;
     } else {
@@ -249,6 +272,25 @@ function is_valid_mail_address($mail)
     }
     return $is_valid;
 }
+
+//is_valid_mail_address($mail)にtrueかfalseを返したい
+// function valid_mail_address($mail)
+// {
+//     $is_valid = true;
+//     $mail = $_POST['mail_address'];
+//     //var_dump($mail);
+//     // $pattern =
+//     //     "/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$/";
+//     $pattern =
+//         "|^[a-zA-Z0-9.!#$%&'*+=/?^_`{}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$|";
+//     if (preg_match($pattern, $mail)) {
+//         $is_valid = true;
+//     } else {
+//         echo '不正な形式のメールアドレスです。';
+//         $is_valid = false;
+//     }
+//     return $is_valid;
+// }
 
 //入力規則確認のメソッド
 function is_valid_password($password, $password_confirmation)
@@ -287,15 +329,16 @@ function insert_user(
     $user_name,
     $mail,
     $password,
-    $question_code,
+    $question,
     $question_answer,
     $address,
-    $user_introduction
+    $payment,
+    $introduction
 ) {
     $sql = "
     INSERT INTO
-      user(real_name,user_name,mail_address, password,question_code,question_answer,address,user_introduction, created)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW());
+      user(real_name,user_name,mail_address, password,question_code,question_answer,address,payment,user_introduction, created)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?,?, NOW());
   ";
 
     return execute_query($db, $sql, [
@@ -303,10 +346,11 @@ function insert_user(
         $user_name,
         $mail,
         $password,
-        $question_code,
+        $question,
         $question_answer,
         $address,
-        $user_introduction,
+        $payment,
+        $introduction,
     ]);
 }
 
