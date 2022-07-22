@@ -39,6 +39,8 @@ $max = count($items);
 //     set_error('カートの更新に失敗しました。');
 // }
 
+
+
 if ($max === 5) {
     set_error('カートがいっぱいです。');
     redirect_to(CART_URL);

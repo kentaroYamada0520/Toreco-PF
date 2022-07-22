@@ -35,6 +35,7 @@ define('PURCHASE_URL', '/purchase.php');
 define('PURCHASE_CONFIRM_URL', '/purchase_process.php');
 define('PASSWORD_URL', '/password.php');
 define('PURCHASE_HISTORY_URL', '/purchase_history.php');
+define('SIGNUP_CONFIRM_URL', '/signup_confirm.php');
 
 define('REGEXP_ALPHANUMERIC', '/\A[0-9a-zA-Z]+\z/');
 define('REGEXP_POSITIVE_INTEGER', '/\A([1-9][0-9]*|0)\z/');

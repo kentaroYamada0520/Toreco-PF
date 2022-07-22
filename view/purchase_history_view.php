@@ -22,6 +22,7 @@
         $result = array();
         if (empty($result)) {
         } else {
+          $items = array();
           $items = $result;
           $result = array();
         } ?>
@@ -54,6 +55,7 @@
                         <input type="hidden" name="csrf_token" value="<?= $token ?>">
                       </form>
                     </td>
+
                     <td>
                       <h2 style="margin:50px;">￥<?php print $item['item_price']; ?></h2>
                     </td>
@@ -64,6 +66,7 @@
                 <td>
                   <h4><?php print date('Y/m/d', strtotime($my_purchase_id['now'])); ?>購入</h4>
                 </td>
+
                 <td></td>
                 <td>
                   <h3>合計￥<?php print $sum ?></h3>

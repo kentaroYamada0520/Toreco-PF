@@ -32,6 +32,15 @@ $user_id = $user['user_id'];
 //     $payment
 // );
 
+if (isset($password_now)) {
+    if (empty($password)) {
+        set_error('新しいパスワードを入力してください。');
+        redirect_to(USER_EDIT_URL);
+    } else {
+        is_valid_password($password, $password_confirmation);
+    }
+}
+
 try {
     $result = update_user(
         $db,

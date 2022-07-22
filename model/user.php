@@ -73,6 +73,41 @@ function select_question($db)
     return fetch_all_query($db, $sql);
 }
 
+function select_payment($db)
+{
+    $sql = "
+     SELECT *
+     FROM
+      payment
+    ";
+    return fetch_all_query($db, $sql);
+}
+
+function get_select_payment($db, $payment)
+{
+    $sql = "
+     SELECT
+      payment
+     FROM
+      payment
+     WHERE
+      payment_code = ?
+    ";
+    return fetch_query($db, $sql, [$payment]);
+}
+
+function get_select_question($db, $question_code)
+{
+    $sql = "
+     SELECT*
+     FROM
+      secret_question
+     WHERE
+      question_code = ?
+    ";
+    return fetch_query($db, $sql, [$question_code]);
+}
+
 function conrirm_question($db, $mail, $question, $answer)
 {
     $sql = "
@@ -145,24 +180,26 @@ function regist_user(
     $db,
     $real_name,
     $user_name,
-    $mail,
+    $mail_address,
     $password,
     $password_confirmation,
     $question,
     $question_answer,
     $address,
     $payment,
-    $introduction,
-    $sql
+    $introduction
 ) {
     if (
         is_valid_user(
             $db,
             $user_name,
-            $mail,
+            $mail_address,
             $password,
             $password_confirmation,
-            $sql
+            $question,
+            $question_answer,
+            $address,
+            $payment
         ) === false
     ) {
         return false;
@@ -173,7 +210,7 @@ function regist_user(
             $db,
             $real_name,
             $user_name,
-            $mail,
+            $mail_address,
             $password,
             $question,
             $question_answer,
@@ -192,16 +229,23 @@ function regist_user(
 function is_valid_user(
     $db,
     $user_name,
-    $mail,
+    $mail_address,
     $password,
     $password_confirmation,
-    $sql
+    $question_code,
+    $question_answer,
+    $address,
+    $payment
 ) {
     // 短絡評価を避けるため一旦代入。
     $is_valid_user_name = is_valid_user_name($user_name);
-    $is_valid_mail_address = is_valid_mail_address($db, $sql, $mail);
+    $is_valid_mail_address = is_valid_mail_address($db, $mail_address);
     $is_valid_password = is_valid_password($password, $password_confirmation);
-    return $is_valid_user_name && $is_valid_mail_address && $is_valid_password;
+    $is_valid_question_code = is_valid_question($question_code);
+    $is_valid_question_answer = is_valid_question_answers($question_answer);
+    $is_valid_address = is_valid_addresss($address);
+    $is_valid_payment = is_valid_payment($payment);
+    return $is_valid_user_name && $is_valid_mail_address && $is_valid_password && $is_valid_question_code && $is_valid_question_answer && $is_valid_address && $is_valid_payment;
 }
 
 function is_valid_user_name($user_name)
@@ -228,7 +272,7 @@ function is_valid_user_name($user_name)
     return true;
 }
 
-function get_mail_address($db, $sql, $mail)
+function get_mail_address($db, $mail_address)
 {
     $sql = "
      SELECT
@@ -238,7 +282,7 @@ function get_mail_address($db, $sql, $mail)
      WHERE
       mail_address = ?
     ";
-    return fetch_query($db, $sql, [$mail]);
+    return fetch_query($db, $sql, [$mail_address]);
 }
 
 // function is_valid_mail_address($db, $sql, $mail)
@@ -252,24 +296,30 @@ function get_mail_address($db, $sql, $mail)
 //     }
 // }
 
-function is_valid_mail_address($db, $sql, $mail)
+function is_valid_mail_address($db,  $mail_address)
 {
     $is_valid = true;
     //var_dump($mail);
     // $pattern =
     //     "/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$/";
-    $result = get_mail_address($db, $sql, $mail);
+    $result = get_mail_address($db, $mail_address);
     $pattern =
         "|^[a-zA-Z0-9.!#$%&'*+=/?^_`{}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$|";
-    if ($result === false) {
-        return false;
-    }
-    if (preg_match($pattern, $mail)) {
-        $is_valid = true;
+    if (empty($mail_address)) {
+        set_error('メールアドレスを入力してください。');
     } else {
-        echo '不正な形式のメールアドレスです。';
-        $is_valid = false;
+        if ($result !== false) {
+            set_error('このメールアドレスは既に使用されています。');
+            return false;
+        }
+        if (preg_match($pattern, $mail_address)) {
+            $is_valid = true;
+        } else {
+            set_message('不正な形式のメールアドレスです。');
+            $is_valid = false;
+        }
     }
+
     return $is_valid;
 }
 
@@ -323,11 +373,53 @@ function is_valid_password($password, $password_confirmation)
     return $is_valid;
 }
 
+function is_valid_question($question_code)
+{
+    $is_valid = true;
+    if (is_null($question_code)) {
+        set_error('秘密の質問を選択してください');
+        $is_valid = false;
+    }
+    return $is_valid;
+}
+
+function is_valid_question_answers($question_answer)
+{
+    $is_valid = true;
+    if (empty($question_answer)) {
+        set_error('秘密の質問の答えを入力してください');
+        $is_valid = false;
+    }
+    return $is_valid;
+}
+
+function is_valid_addresss($address)
+{
+    $is_valid = true;
+    if (empty($address)) {
+        set_error('住所を入力してください。');
+        $is_valid = false;
+    }
+    return $is_valid;
+}
+
+function is_valid_payment($payment)
+{
+    $is_valid = true;
+    if ($payment === "") {
+        set_error('支払方法を選択してください。');
+        $is_valid = false;
+    }
+    return $is_valid;
+}
+
+// function redirect_to_signup()
+
 function insert_user(
     $db,
     $real_name,
     $user_name,
-    $mail,
+    $mail_address,
     $password,
     $question,
     $question_answer,
@@ -337,22 +429,23 @@ function insert_user(
 ) {
     $sql = "
     INSERT INTO
-      user(real_name,user_name,mail_address, password,question_code,question_answer,address,payment,user_introduction, created)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?,?, NOW());
+      user(real_name,user_name,mail_address, password,question_code,question_answer,address,payment_code,user_introduction)
+    VALUES (?, ?, ?, ?, ?, ?, ?,?, ?);
   ";
 
     return execute_query($db, $sql, [
         $real_name,
         $user_name,
-        $mail,
+        $mail_address,
         $password,
         $question,
         $question_answer,
         $address,
         $payment,
-        $introduction,
+        $introduction
     ]);
 }
+
 
 function get_user_info($db, $user_id)
 {

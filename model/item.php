@@ -150,6 +150,8 @@ function get_user_items($db, $user_id)
       itemInfo
     WHERE
       user_id = ?
+    AND
+      delete_flag = 0;
     ';
 
   return fetch_all_query($db, $sql, [$user_id]);
@@ -419,11 +421,12 @@ function get_trade_items($db, $user_id)
 function delete_item($db, $item_id)
 {
   $sql = "
-    DELETE FROM
-      itemInfo
+    UPDATE
+     itemInfo
+    SET
+     delete_flag = 1;
     WHERE
-      item_id = ?
-    LIMIT 1
+     item_id = ?
   ";
 
   return execute_query($db, $sql, [$item_id]);
@@ -690,15 +693,25 @@ function is_valid_category($category)
   return $is_valid;
 }
 
-function is_valid_payment($payment)
-{
-  $is_valid = true;
-  if ($payment === '') {
-    set_error('支払方法を選択してください');
-    $is_valid = false;
-  }
-  return $is_valid;
-}
+// function is_valid_payment($payment)
+// {
+//   $is_valid = true;
+//   if ($payment === '') {
+//     set_error('支払方法を選択してください');
+//     $is_valid = false;
+//   }
+//   return $is_valid;
+// }
+
+// function is_valid_payment($payment)
+// {
+//   $is_valid = true;
+//   if (is_null($payment)) {
+//     set_error('支払方法を選択してください');
+//     $is_valid = false;
+//   }
+//   return $is_valid;
+// }
 
 function is_valid_price($price)
 {

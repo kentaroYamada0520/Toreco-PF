@@ -81,6 +81,19 @@ function set_session_user_info($mail, $user_name, $value_mail, $value_uname)
     $_SESSION[$user_name] = $value_uname;
 }
 
+function set_session_signup($real_name, $user_name, $mail, $password, $question_code, $question_answer, $address, $payment, $introduction, $value_real_name, $value_user_name, $value_mail, $value_password, $value_question_code, $value_question_answer, $value_address, $value_payment, $value_introduction)
+{
+    $_SESSION[$real_name] = $value_real_name;
+    $_SESSION[$user_name] = $value_user_name;
+    $_SESSION[$mail] = $value_mail;
+    $_SESSION[$password] = $value_password;
+    $_SESSION[$question_code] = $value_question_code;
+    $_SESSION[$question_answer] = $value_question_answer;
+    $_SESSION[$address] = $value_address;
+    $SESSION[$payment] = $value_payment;
+    $_SESSION[$introduction] = $value_introduction;
+}
+
 function set_error($error)
 {
     $_SESSION['__errors'][] = $error;

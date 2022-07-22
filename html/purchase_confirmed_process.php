@@ -19,12 +19,14 @@ $pay = get_payment($db, $user_id);
 $items = get_user_cart($db, $sql, $user['user_id']);
 
 $real_name = get_post('real_name');
-$mail_address = get_post('mail_address');   
+$mail_address = get_post('mail_address');
 $address = get_post('address');
 $cc_name = get_post('cc_name');
 $cc_number = get_post('cc_number');
 $cc_expiration = get_post('cc_expiration');
 $cc_cvv = get_post('cc_cvv');
+
+var_dump($real_name);
 
 $total = 0;
 $max = count($items);
