@@ -81,17 +81,30 @@ function set_session_user_info($mail, $user_name, $value_mail, $value_uname)
     $_SESSION[$user_name] = $value_uname;
 }
 
-function set_session_signup($real_name, $user_name, $mail, $password, $question_code, $question_answer, $address, $payment, $introduction, $value_real_name, $value_user_name, $value_mail, $value_password, $value_question_code, $value_question_answer, $value_address, $value_payment, $value_introduction)
+function set_session_signup($real_name, $user_name, $mail_address, $password, $question_code, $question_answer, $address, $payment, $introduction, $value_real_name, $value_user_name, $value_mail_address, $value_password, $value_question_code, $value_question_answer, $value_address, $value_payment, $value_introduction)
 {
     $_SESSION[$real_name] = $value_real_name;
     $_SESSION[$user_name] = $value_user_name;
-    $_SESSION[$mail] = $value_mail;
+    $_SESSION[$mail_address] = $value_mail_address;
     $_SESSION[$password] = $value_password;
     $_SESSION[$question_code] = $value_question_code;
     $_SESSION[$question_answer] = $value_question_answer;
     $_SESSION[$address] = $value_address;
-    $SESSION[$payment] = $value_payment;
+    $_SESSION[$payment] = $value_payment;
     $_SESSION[$introduction] = $value_introduction;
+}
+
+
+function set_session_item($image, $name, $category, $price, $status, $trade_item_name, $shipping, $introduct, $value_image, $value_name, $value_category, $value_price, $value_status, $value_trade_item_name, $value_shipping, $value_introduct)
+{
+    $_SESSION[$image] = $value_image;
+    $_SESSION[$name] = $value_name;
+    $_SESSION[$category] = $value_category;
+    $_SESSION[$price] = $value_price;
+    $_SESSION[$status] = $value_status;
+    $_SESSION[$trade_item_name] = $value_trade_item_name;
+    $_SESSION[$shipping] = $value_shipping;
+    $_SESSION[$introduct] = $value_introduct;
 }
 
 function set_error($error)
@@ -136,15 +149,26 @@ function is_logined()
     return get_session('mail_address') !== '';
 }
 
-function get_upload_filename($file)
+function get_upload_filename($image)
 {
-    if (is_valid_upload_image($file) === false) {
+    if (is_valid_upload_image($image) === false) {
         return '';
     }
-    $mimetype = exif_imagetype($file['tmp_name']);
+    $mimetype = exif_imagetype($image['tmp_name']);
     $ext = PERMITTED_IMAGE_TYPES[$mimetype];
     return get_random_string() . '.' . $ext;
 }
+
+
+// function get_upload_filename($file)
+// {
+//     if (is_valid_upload_image($file) === false) {
+//         return '';
+//     }
+//     $mimetype = exif_imagetype($file['tmp_name']);
+//     $ext = PERMITTED_IMAGE_TYPES[$mimetype];
+//     return get_random_string() . '.' . $ext;
+// }
 
 //var_dump($mimetype);
 
@@ -193,14 +217,14 @@ function is_valid_upload_image($image)
         return false;
     }
     $mimetype = exif_imagetype($image['tmp_name']);
-    // if (isset(PERMITTED_IMAGE_TYPES[$mimetype]) === false) {
-    //     set_error(
-    //         'ファイル形式は' .
-    //             implode('、', PERMITTED_IMAGE_TYPES) .
-    //             'のみ利用可能です。'
-    //     );
-    //     return false;
-    // }
+    if (isset(PERMITTED_IMAGE_TYPES[$mimetype]) === false) {
+        set_error(
+            'ファイル形式は' .
+                implode('、', PERMITTED_IMAGE_TYPES) .
+                'のみ利用可能です。'
+        );
+        return false;
+    }
     return true;
 }
 

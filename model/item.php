@@ -11,15 +11,16 @@ function get_item($db, $item_id)
       itemInfo.item_id,
       itemInfo.user_id,
       itemInfo.item_price,
+      itemInfo.shipping_code,
       item_image,
       status.status_name,
       item_category.category_name,
       trade_item_name,
       itemInfo.created,
-      item_address,
       item_introduction,
       item_name,
       user.user_name,
+      shipping.shipping_code,
       shipping.shipping_date
     FROM
       itemInfo
@@ -475,7 +476,6 @@ function regist_item(
   $image,
   $name,
   $category,
-  $payment,
   $price,
   $status,
   $trade_item_name,
@@ -484,12 +484,13 @@ function regist_item(
   $user_id
 ) {
   $filename = get_upload_filename($image);
+  // var_dump($filename);
+  // var_dump($category);
   if (
     validate_item(
       $filename,
       $name,
       $category,
-      $payment,
       $price,
       $status,
       $trade_item_name,
@@ -502,44 +503,41 @@ function regist_item(
   return regist_item_transaction(
     $db,
     $user_id,
-    $image,
     $name,
     $category,
-    $payment,
     $price,
     $status,
     $trade_item_name,
     $shipping,
     $introduct,
-    $filename
+    $filename,
+    $image
   );
 }
 
 function regist_item_transaction(
   $db,
   $user_id,
-  $image,
   $name,
   $category,
-  $payment,
   $price,
-  $status_code,
+  $status,
   $trade_item_name,
   $shipping,
   $introduct,
-  $filename
+  $filename,
+  $image
 ) {
+  // var_dump($category);
   $db->beginTransaction();
   if (
     insert_item(
       $db,
       $user_id,
-      $image,
       $name,
       $category,
-      $payment,
       $price,
-      $status_code,
+      $status,
       $trade_item_name,
       $shipping,
       $introduct,
@@ -556,53 +554,93 @@ function regist_item_transaction(
 }
 
 //function insert_item($db, $user_id, $address, $filename, $name, $category, $payment, $price, $status, $trade_item_name, $shipping, $introduct){
+
 function insert_item(
   $db,
   $user_id,
-  $address,
   $name,
-  $price,
   $category,
+  $price,
   $status,
-  $shipping,
-  $filename,
-  $introduct,
   $trade_item_name,
-  $payment
+  $shipping,
+  $introduct,
+  $filename
 ) {
+  // var_dump($category);
+  // var_dump($price);
   // $status_value = PERMITTED_STATUS[$status];
   $sql = "
-    INSERT INTO
-      itemInfo(
-        user_id,
-        item_address,
-        item_name,
-        item_price,
-        category_code,
-        status_code,
-        shipping_code,
-        item_image,
-        item_introduction,
-        trade_item_name,
-        payment_designated_code,
-        created
-      )
-     VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW());
-  ";
+      INSERT INTO
+        itemInfo(
+          user_id,
+          item_image,
+          item_name,
+          category_code,
+          item_price,
+          status_code,
+          trade_item_name,
+          shipping_code,          
+          item_introduction,          
+          created
+        )
+       VALUES(?, ?, ?, ?, ?, ?, ?,  ?, ?,  NOW());
+    ";
   return execute_query($db, $sql, [
     $user_id,
-    $address,
-    $name,
-    $price,
-    $category,
-    $status,
-    $shipping,
     $filename,
-    $introduct,
+    $name,
+    $category,
+    $price,
+    $status,
     $trade_item_name,
-    $payment,
+    $shipping,
+    $introduct
   ]);
 }
+
+//202207編集
+// function insert_item(
+//   $db,
+//   $user_id,
+//   $name,
+//   $price,
+//   $category,
+//   $status,
+//   $shipping,
+//   $filename,
+//   $introduct,
+//   $trade_item_name
+// ) {
+//   // $status_value = PERMITTED_STATUS[$status];
+//   $sql = "
+//     INSERT INTO
+//       itemInfo(
+//         user_id,
+//         item_name,
+//         item_price,
+//         category_code,
+//         status_code,
+//         shipping_code,
+//         item_image,
+//         item_introduction,
+//         trade_item_name,
+//         created
+//       )
+//      VALUES(?, ?, ?, ?, ?, ?, ?,  ?, ?,  NOW());
+//   ";
+//   return execute_query($db, $sql, [
+//     $user_id,
+//     $name,
+//     $price,
+//     $category,
+//     $status,
+//     $shipping,
+//     $filename,
+//     $introduct,
+//     $trade_item_name
+//   ]);
+// }
 
 function destroy_item($db, $item_id)
 {
@@ -798,6 +836,32 @@ function select_status($db)
   ";
 
   return fetch_all_query($db, $sql);
+}
+
+function get_category_name($db, $category)
+{
+  $sql = "
+   SELECT
+    category_name 
+   FROM
+    item_category
+   WHERE
+    category_code = ?
+     ";
+  return fetch_query($db, $sql, [$category]);
+}
+
+function get_status_name($db, $status)
+{
+  $sql = "
+   SELECT
+    status_name
+   FROM 
+    status
+   WHERE
+    status_code = ?
+  ";
+  return fetch_query($db, $sql, [$status]);
 }
 
 

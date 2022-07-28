@@ -491,7 +491,6 @@ function edit_user(
     $db,
     $real_name,
     $user_name,
-    $password,
     $question_code,
     $question_answer,
     $address,
@@ -505,7 +504,6 @@ function edit_user(
         SET
           real_name = ?,
           user_name = ?,
-          password = ?,
           question_code = ?,
           question_answer = ?,
           address = ?,
@@ -517,7 +515,6 @@ function edit_user(
     return execute_query($db, $sql, [
         $real_name,
         $user_name,
-        $password,
         $question_code,
         $question_answer,
         $address,
@@ -626,27 +623,19 @@ function update_user(
     $db,
     $real_name,
     $user_name,
-    $password_now,
-    $password,
-    $password_confirmation,
     $question_code,
     $question_answer,
     $address,
     $payment,
     $user_introduction,
-    $user_id,
-    $user
+    $user_id
 ) {
     if (
         is_valid_update_user(
             $real_name,
             $user_name,
-            $password_now,
-            $password,
-            $password_confirmation,
             $question_answer,
-            $address,
-            $user
+            $address
         ) === false
     ) {
         return false;
@@ -657,7 +646,6 @@ function update_user(
         $db,
         $real_name,
         $user_name,
-        $password,
         $question_code,
         $question_answer,
         $address,
@@ -670,22 +658,12 @@ function update_user(
 function is_valid_update_user(
     $real_name,
     $user_name,
-    $password_now,
-    $password,
-    $password_confirmation,
     $question_answer,
-    $address,
-    $user
+    $address
 ) {
     // 短絡評価を避けるため一旦代入。
     $is_valid_real_name = is_valid_real_name($real_name);
     $is_valid_user_name = is_valid_user_names($user_name);
-    $is_valid_password = password_change(
-        $password_now,
-        $user,
-        $password,
-        $password_confirmation
-    );
     $is_valid_question_answer = is_valid_question_answer($question_answer);
     $is_valid_address = is_valid_address($address);
 
@@ -697,7 +675,6 @@ function is_valid_update_user(
     if (
         $is_valid_real_name === true &&
         $is_valid_user_name === true &&
-        $is_valid_password === true &&
         $is_valid_question_answer === true &&
         $is_valid_address === true
     ) {
@@ -722,6 +699,19 @@ function password_change(
         set_error('パスワードが一致しません。');
         return false;
     }
+}
+
+function edit_password($db, $password_new, $user_id)
+{
+    $sql = "
+     UPDATE
+      user
+     SET
+      password = ?
+     WHERE
+      user_id = ?
+    ";
+    return execute_query($db, $sql, array($password_new, $user_id));
 }
 
 function is_valid_real_name($real_name)

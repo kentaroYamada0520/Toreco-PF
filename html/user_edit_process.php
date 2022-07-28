@@ -16,9 +16,9 @@ $question_answer = GET_POST('question_answer');
 $address = GET_POST('address');
 $payment = GET_POST('payment_code');
 $user_introduction = GET_POST('user_introduction');
-$password_now = GET_POST('password_now');
-$password = GET_POST('password');
-$password_confirmation = GET_POST('password_confirmation');
+// $password_now = GET_POST('password_now');
+// $password = GET_POST('password');
+// $password_confirmation = GET_POST('password_confirmation');
 $user = get_login_user($db);
 //下の箇所書き直し
 $user_id = $user['user_id'];
@@ -32,30 +32,26 @@ $user_id = $user['user_id'];
 //     $payment
 // );
 
-if (isset($password_now)) {
-    if (empty($password)) {
-        set_error('新しいパスワードを入力してください。');
-        redirect_to(USER_EDIT_URL);
-    } else {
-        is_valid_password($password, $password_confirmation);
-    }
-}
+// if (isset($password_now)) {
+//     if (empty($password)) {
+//         set_error('新しいパスワードを入力してください。');
+//         redirect_to(USER_EDIT_URL);
+//     } else {
+//         is_valid_password($password, $password_confirmation);
+//     }
+// }
 
 try {
     $result = update_user(
         $db,
         $real_name,
         $user_name,
-        $password_now,
-        $password,
-        $password_confirmation,
         $question_code,
         $question_answer,
         $address,
         $payment,
         $user_introduction,
-        $user_id,
-        $user
+        $user_id
     );
     if ($result === false) {
         set_error('ユーザー登録に失敗しました。');

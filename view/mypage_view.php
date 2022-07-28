@@ -29,9 +29,6 @@
               <h6 class="my-0">メールアドレス：<?php print $user['mail_address']; ?></h6>
             </li>
             <li class="list-group-item d-flex justify-content-between lh-sm">
-              <h6 class="my-0">パスワード：********</h6>
-            </li>
-            <li class="list-group-item d-flex justify-content-between lh-sm">
               <h6 class="my-0">秘密の質問：<?php print $user['question_content']; ?></h6>
             </li>
             <li class="list-group-item d-flex justify-content-between lh-sm">
@@ -49,6 +46,11 @@
           </ul>
           <form method="post" action="user_edit.php">
             <input type="submit" value="アカウント情報を編集する" class="btn btn-primary btn-block">
+            <input type="hidden" value="<?php print $user_id; ?>">
+            <input type="hidden" value="<?php print $token; ?>">
+          </form>
+          <form method="post" action="user_edit_password.php">
+            <input type="submit" value="パスワードを変更する" class="btn btn-primary btn-block">
             <input type="hidden" value="<?php print $user_id; ?>">
             <input type="hidden" value="<?php print $token; ?>">
           </form>

@@ -36,6 +36,7 @@ define('PURCHASE_CONFIRM_URL', '/purchase_process.php');
 define('PASSWORD_URL', '/password.php');
 define('PURCHASE_HISTORY_URL', '/purchase_history.php');
 define('SIGNUP_CONFIRM_URL', '/signup_confirm.php');
+define('PASSWORD_EDIT_URL', '/user_edit_password.php');
 
 define('REGEXP_ALPHANUMERIC', '/\A[0-9a-zA-Z]+\z/');
 define('REGEXP_POSITIVE_INTEGER', '/\A([1-9][0-9]*|0)\z/');
@@ -62,7 +63,7 @@ define('ITEM_STATUS_CLOSE', 0);
 //     'baditem' => 2
 // ));
 
-// define('PERMITTED_IMAGE_TYPES', array(
-//     IMAGETYPE_JPEG => 'jpg',
-//     IMAGETYPE_PNG => 'png'
-// ));
+define('PERMITTED_IMAGE_TYPES', array(
+    IMAGETYPE_JPEG => 'jpg',
+    IMAGETYPE_PNG => 'png'
+));

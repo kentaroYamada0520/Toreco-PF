@@ -34,15 +34,16 @@ $payments = select_payment($db);
 
 $real_name = get_session('real_name');
 $user_name = get_session('user_name');
-$mail_address = get_session('mail_address');
+$mail_address = get_session('mail');
 $password = get_session('password');
 $question_code = get_session('question_code');
 $question_answer = get_session('question_answer');
 $address = get_session('address');
-$payment = get_session('payment');
+$payment = get_session('payment_code');
 $introduction = get_session('introduction');
 
-// var_dump($payment);
+
+var_dump($payment);
 
 // var_dump($questions);
 

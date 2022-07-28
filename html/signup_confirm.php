@@ -39,7 +39,7 @@ $question_content = get_select_question($db, $question_code);
 
 // var_dump($mail_address);
 
-set_session_signup('real_name', 'user_name', 'mail_address', 'password', 'question_code', 'question_answer', 'address', 'payment', 'introduction', $real_name, $user_name, $mail_address, $password, $question_code, $question_answer, $address, $payment, $introduction);
+set_session_signup('real_name', 'user_name', 'mail', 'password', 'question_code', 'question_answer', 'address', 'payment_code', 'introduction', $real_name, $user_name, $mail_address, $password, $question_code, $question_answer, $address, $payment, $introduction);
 
 // $a = get_session('mail');
 // var_dump($mail);

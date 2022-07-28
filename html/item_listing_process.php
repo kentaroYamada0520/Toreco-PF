@@ -28,14 +28,22 @@ $user = get_login_user($db);
 $user_id = $user['user_id'];
 $image = get_file('item_image');
 $name = get_post('item_name');
-$address = get_post('item_address');
+// $address = get_post('item_address');
 $category = get_post('category_code');
-$payment = get_post('payment_designated_code');
-$price = get_post('item_price');
+// $payment = get_post('payment_designated_code');
+$prices = get_post('item_price');
+$price = (int)$prices;
 $status = get_post('status_code');
 $trade_item_name = get_post('trade_item_name');
 $shipping = get_post('shipping_code');
 $introduct = get_post('item_introduction');
+
+// var_dump($name);
+// var_dump($price);
+// var_dump($category);
+
+
+set_session_item('item_image', 'item_name', 'category_code', 'item_price', 'status_code', 'trade_item_name', 'shipping_code', 'item_introduction',  $image, $name, $category, $price, $status, $trade_item_name, $shipping, $introduct);
 
 //var_dump($category);
 //アイテムを出品
@@ -44,21 +52,22 @@ if (
         $db,
         $image,
         $name,
-        $address,
         $category,
-        $payment,
         $price,
         $status,
         $trade_item_name,
         $shipping,
         $introduct,
-        $user['user_id']
+        $user_id
     )
 ) {
     set_message('アイテムを登録しました。');
+    set_session_item('item_image', 'item_name', 'category_code', 'item_price', 'status_code', 'trade_item_name', 'shipping_code', 'item_introduction',  '', '', '', '', '', '', '', '');
 } else {
     set_error('アイテムの登録に失敗しました。');
 }
 //var_dump($shipping);
+
+
 
 redirect_to(LISTING_URL);
